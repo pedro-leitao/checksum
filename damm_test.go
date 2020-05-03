@@ -1,6 +1,10 @@
 package checksum
 
-import "testing"
+import (
+	"math/rand"
+	"strconv"
+	"testing"
+)
 
 func TestDammCheck(t *testing.T) {
 	var dm Damm
@@ -26,5 +30,26 @@ func TestDammInvalid(t *testing.T) {
 	c, err := dm.Check("57A24")
 	if c != false || err == nil {
 		t.Errorf("Check(57A24) != false, got %v (%v)", c, err)
+	}
+}
+
+func BenchmarkDamm(b *testing.B) {
+
+	var dm Damm
+
+	b.StopTimer()
+	from := rand.Intn(1000000000) + 1000000000
+	to := from + b.N
+	for i := from; i <= to; i++ {
+		var s, ns string
+		var checks bool
+
+		s = strconv.Itoa(i)
+		b.StartTimer()
+		_, ns, _ = dm.Compute(s)
+		if checks, _ = dm.Check(ns); checks != true {
+			b.Errorf("%v: failed, which should never have happened...", i)
+		}
+		b.StopTimer()
 	}
 }
