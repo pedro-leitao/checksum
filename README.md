@@ -6,3 +6,7 @@ Implemented as of now:
 
 - Damm algorithm (https://en.wikipedia.org/wiki/Damm_algorithm)
 - Verhoeff scheme (https://en.wikipedia.org/wiki/Verhoeff_algorithm)
+
+## Compiling the protobuf definition
+
+protoc -I api/ -I${GOPATH}/src --go_out=plugins=grpc:api api/checksum.proto

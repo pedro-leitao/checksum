@@ -1,0 +1,19 @@
+syntax = "proto3";
+package api;
+
+message Request {
+    string payload = 1;
+}
+
+message Response {
+    string payload = 1;
+    bool valid = 2;
+    string error = 3;
+}
+
+service Checksum {
+    rpc DammCompute(Request) returns (Response) {}
+    rpc DammCheck(Request) returns (Response) {}
+    rpc VerhoeffCompute(Request) returns (Response) {}
+    rpc VerhoeffCheck(Request) returns (Response) {}
+}
