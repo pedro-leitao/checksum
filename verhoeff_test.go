@@ -37,7 +37,7 @@ func BenchmarkVerhoeff(b *testing.B) {
 
 	var vh Verhoeff
 
-	b.StopTimer()
+	//b.StopTimer()
 	from := rand.Intn(1000000000) + 1000000000
 	to := from + b.N
 	for i := from; i <= to; i++ {
@@ -45,11 +45,11 @@ func BenchmarkVerhoeff(b *testing.B) {
 		var checks bool
 
 		s = strconv.Itoa(i)
-		b.StartTimer()
+		//b.StartTimer()
 		_, ns, _ = vh.Compute(s)
 		if checks, _ = vh.Check(ns); checks != true {
 			b.Errorf("%v: failed, which should never have happened...", i)
 		}
-		b.StopTimer()
+		//b.StopTimer()
 	}
 }
