@@ -37,8 +37,7 @@ func main() {
 		var err error
 		if *verhoeff {
 			response, err = c.VerhoeffCheck(context.Background(), &api.Request{Payload: *check})
-		}
-		if *damm {
+		} else if *damm {
 			response, err = c.DammCheck(context.Background(), &api.Request{Payload: *check})
 		}
 		if err != nil {
@@ -49,8 +48,7 @@ func main() {
 		var err error
 		if *verhoeff {
 			response, err = c.VerhoeffCompute(context.Background(), &api.Request{Payload: *compute})
-		}
-		if *damm {
+		} else if *damm {
 			response, err = c.DammCompute(context.Background(), &api.Request{Payload: *compute})
 		}
 		if err != nil {
