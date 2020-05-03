@@ -27,7 +27,7 @@ And finally run a few examples:
     $ ./client -addr :4040 -compute "123456789" -damm
     Response from server:
     <*>payload:"1234567894"  valid:true
-    $ ./client -addr raspberrypi:4040 -check "1234567894" -damm
+    $ ./client -addr :4040 -check "1234567894" -damm
     Response from server:
     <*>payload:"1234567894"  valid:true
     
