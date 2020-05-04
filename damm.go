@@ -39,12 +39,11 @@ type Damm struct{}
 func damm(s string) (int, error) {
 	c := 0
 	for i := range s {
-		char := s[i] // get characters in order
-		digit := 0
+		char := s[i]                // get characters in order
 		if char < 48 || char > 57 { // Checks character is between [0-9]
 			return 0, errors.New("Not a numeric string")
 		}
-		digit = int(char - '0')
+		digit := int(char - '0')
 		c = operationTable[c][digit]
 	}
 	return c, nil

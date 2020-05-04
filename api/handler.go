@@ -66,3 +66,31 @@ func (s *Server) VerhoeffCheck(ctx context.Context, in *Request) (*Response, err
 	}
 	return &Response{Payload: in.Payload, Valid: valid, Error: ""}, nil
 }
+
+// LuhnCompute serves a request for computing a checksum using the Luhn algorithm
+func (s *Server) LuhnCompute(ctx context.Context, in *Request) (*Response, error) {
+	var lh checksum.Luhn
+
+	log.Printf("Received request %v", in)
+
+	_, ns, err := lh.Compute(in.Payload)
+	if err != nil {
+		log.Printf("Failed to process: %v", err)
+		return &Response{Payload: "", Valid: false, Error: err.Error()}, nil
+	}
+	return &Response{Payload: ns, Valid: true, Error: ""}, nil
+}
+
+// LuhnCheck serves a request for validating a checksum using the Luhn algorithm
+func (s *Server) LuhnCheck(ctx context.Context, in *Request) (*Response, error) {
+	var lh checksum.Luhn
+
+	log.Printf("Received request %v", in)
+
+	valid, err := lh.Check(in.Payload)
+	if err != nil {
+		log.Printf("Failed to process: %v", err)
+		return &Response{Payload: in.Payload, Valid: false, Error: err.Error()}, nil
+	}
+	return &Response{Payload: in.Payload, Valid: valid, Error: ""}, nil
+}

@@ -150,7 +150,7 @@ var file_checksum_proto_rawDesc = []byte{
 	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64,
 	0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52,
 	0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x32, 0xc6, 0x01, 0x0a,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x32, 0xa0, 0x02, 0x0a,
 	0x08, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x73, 0x75, 0x6d, 0x12, 0x2c, 0x0a, 0x0b, 0x44, 0x61, 0x6d,
 	0x6d, 0x43, 0x6f, 0x6d, 0x70, 0x75, 0x74, 0x65, 0x12, 0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73,
@@ -163,7 +163,13 @@ var file_checksum_proto_rawDesc = []byte{
 	0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x2e, 0x0a, 0x0d, 0x56, 0x65, 0x72, 0x68, 0x6f, 0x65, 0x66,
 	0x66, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x12, 0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x2c, 0x0a, 0x0b, 0x4c, 0x75, 0x68, 0x6e, 0x43, 0x6f, 0x6d,
+	0x70, 0x75, 0x74, 0x65, 0x12, 0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x12, 0x2a, 0x0a, 0x09, 0x4c, 0x75, 0x68, 0x6e, 0x43, 0x68, 0x65, 0x63, 0x6b,
+	0x12, 0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42,
+	0x07, 0x5a, 0x05, 0x2e, 0x3b, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -188,12 +194,16 @@ var file_checksum_proto_depIdxs = []int32{
 	0, // 1: api.Checksum.DammCheck:input_type -> api.Request
 	0, // 2: api.Checksum.VerhoeffCompute:input_type -> api.Request
 	0, // 3: api.Checksum.VerhoeffCheck:input_type -> api.Request
-	1, // 4: api.Checksum.DammCompute:output_type -> api.Response
-	1, // 5: api.Checksum.DammCheck:output_type -> api.Response
-	1, // 6: api.Checksum.VerhoeffCompute:output_type -> api.Response
-	1, // 7: api.Checksum.VerhoeffCheck:output_type -> api.Response
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	0, // 4: api.Checksum.LuhnCompute:input_type -> api.Request
+	0, // 5: api.Checksum.LuhnCheck:input_type -> api.Request
+	1, // 6: api.Checksum.DammCompute:output_type -> api.Response
+	1, // 7: api.Checksum.DammCheck:output_type -> api.Response
+	1, // 8: api.Checksum.VerhoeffCompute:output_type -> api.Response
+	1, // 9: api.Checksum.VerhoeffCheck:output_type -> api.Response
+	1, // 10: api.Checksum.LuhnCompute:output_type -> api.Response
+	1, // 11: api.Checksum.LuhnCheck:output_type -> api.Response
+	6, // [6:12] is the sub-list for method output_type
+	0, // [0:6] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -266,6 +276,8 @@ type ChecksumClient interface {
 	DammCheck(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 	VerhoeffCompute(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 	VerhoeffCheck(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	LuhnCompute(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	LuhnCheck(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 }
 
 type checksumClient struct {
@@ -312,12 +324,32 @@ func (c *checksumClient) VerhoeffCheck(ctx context.Context, in *Request, opts ..
 	return out, nil
 }
 
+func (c *checksumClient) LuhnCompute(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
+	err := c.cc.Invoke(ctx, "/api.Checksum/LuhnCompute", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *checksumClient) LuhnCheck(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
+	err := c.cc.Invoke(ctx, "/api.Checksum/LuhnCheck", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChecksumServer is the server API for Checksum service.
 type ChecksumServer interface {
 	DammCompute(context.Context, *Request) (*Response, error)
 	DammCheck(context.Context, *Request) (*Response, error)
 	VerhoeffCompute(context.Context, *Request) (*Response, error)
 	VerhoeffCheck(context.Context, *Request) (*Response, error)
+	LuhnCompute(context.Context, *Request) (*Response, error)
+	LuhnCheck(context.Context, *Request) (*Response, error)
 }
 
 // UnimplementedChecksumServer can be embedded to have forward compatible implementations.
@@ -335,6 +367,12 @@ func (*UnimplementedChecksumServer) VerhoeffCompute(context.Context, *Request) (
 }
 func (*UnimplementedChecksumServer) VerhoeffCheck(context.Context, *Request) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerhoeffCheck not implemented")
+}
+func (*UnimplementedChecksumServer) LuhnCompute(context.Context, *Request) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LuhnCompute not implemented")
+}
+func (*UnimplementedChecksumServer) LuhnCheck(context.Context, *Request) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LuhnCheck not implemented")
 }
 
 func RegisterChecksumServer(s *grpc.Server, srv ChecksumServer) {
@@ -413,6 +451,42 @@ func _Checksum_VerhoeffCheck_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Checksum_LuhnCompute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChecksumServer).LuhnCompute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.Checksum/LuhnCompute",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChecksumServer).LuhnCompute(ctx, req.(*Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Checksum_LuhnCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChecksumServer).LuhnCheck(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.Checksum/LuhnCheck",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChecksumServer).LuhnCheck(ctx, req.(*Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Checksum_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "api.Checksum",
 	HandlerType: (*ChecksumServer)(nil),
@@ -432,6 +506,14 @@ var _Checksum_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerhoeffCheck",
 			Handler:    _Checksum_VerhoeffCheck_Handler,
+		},
+		{
+			MethodName: "LuhnCompute",
+			Handler:    _Checksum_LuhnCompute_Handler,
+		},
+		{
+			MethodName: "LuhnCheck",
+			Handler:    _Checksum_LuhnCheck_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

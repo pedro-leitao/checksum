@@ -18,6 +18,7 @@ func main() {
 	compute := flag.String("compute", "123456789", "compute the checksum for a given numeric string")
 	damm := flag.Bool("damm", true, "use the Damm algorithm")
 	verhoeff := flag.Bool("verhoeff", false, "use the Verhoeff algorithm")
+	luhn := flag.Bool("luhn", false, "use the Luhn algorithm")
 	flag.Parse()
 
 	var conn *grpc.ClientConn
@@ -39,6 +40,8 @@ func main() {
 			response, err = c.VerhoeffCheck(context.Background(), &api.Request{Payload: *check})
 		} else if *damm {
 			response, err = c.DammCheck(context.Background(), &api.Request{Payload: *check})
+		} else if *luhn {
+			response, err = c.LuhnCheck(context.Background(), &api.Request{Payload: *check})
 		}
 		if err != nil {
 			log.Fatalf("Error when calling gRPC method: %s", err)
@@ -50,6 +53,8 @@ func main() {
 			response, err = c.VerhoeffCompute(context.Background(), &api.Request{Payload: *compute})
 		} else if *damm {
 			response, err = c.DammCompute(context.Background(), &api.Request{Payload: *compute})
+		} else if *luhn {
+			response, err = c.LuhnCompute(context.Background(), &api.Request{Payload: *compute})
 		}
 		if err != nil {
 			log.Fatalf("Error when calling gRPC method: %s", err)

@@ -55,12 +55,11 @@ type Verhoeff struct{}
 func verhoeff(s string) (int, error) {
 	c := 0
 	for i := range s {
-		char := s[len(s)-1-i] // get characters in reverse order
-		digit := 0
+		char := s[len(s)-1-i]       // get characters in reverse order
 		if char < 48 || char > 57 { // Checks character is between [0-9]
 			return 0, errors.New("Not a numeric string")
 		}
-		digit = int(char - '0')
+		digit := int(char - '0')
 		c = multiplicationTable[c][permutationTable[i%8][digit]]
 	}
 	return c, nil
