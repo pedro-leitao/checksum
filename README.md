@@ -6,6 +6,7 @@ Implemented as of now:
 
 - Damm algorithm (https://en.wikipedia.org/wiki/Damm_algorithm)
 - Verhoeff scheme (https://en.wikipedia.org/wiki/Verhoeff_algorithm)
+- Luhn algorithm (https://en.wikipedia.org/wiki/Luhn_algorithm)
 
 It comes with a gRPC endpoint implementation, and a client/server which can be used to invoke/serve calls.
 
@@ -22,8 +23,26 @@ You can then build the client/server:
     
 And finally run a few examples:
 
+    $ ./server -help
+    Usage of ./server:
+    -port int
+    	port the server should listen on (default 4040)
     $ ./server
     2020/05/04 00:44:40 Listening on port 4040
+    $ ./client -help
+    Usage of ./client:
+    -addr string
+    	address the server is listening on (default "localhost:4040")
+    -check string
+    	check a given numeric string for its checksum
+    -compute string
+    	compute the checksum for a given numeric string (default "123456789")
+    -damm
+    	use the Damm algorithm (default true)
+    -luhn
+    	use the Luhn algorithm
+    -verhoeff
+    	use the Verhoeff algorithm
     $ ./client -addr :4040 -compute "123456789" -damm
     Response from server:
     <*>payload:"1234567894"  valid:true
@@ -35,16 +54,14 @@ And finally run a few examples:
 
 Tests for the various algorithms are included, as are benchmark tests:
 
-    $ go test
-    PASS
-    ok  	checksum	0.023s
-    $ go test -bench=.
+    go test -bench=.
     goos: linux
     goarch: arm
     pkg: checksum
-    BenchmarkDamm-4       	  349975	      3298 ns/op
-    BenchmarkVerhoeff-4   	  195798	      6260 ns/op
+    BenchmarkDamm-4       	  351817	      3467 ns/op
+    BenchmarkLuhn-4       	 1257541	       920 ns/op
+    BenchmarkVerhoeff-4   	  195346	      6122 ns/op
     PASS
-    ok  	checksum	2.493s
+    ok  	checksum	4.654s
     
-Even on my incredibly tiny Raspberry Pi the algorithms are blazing fast, with the Damm algorithm running 10 digit compute/check cycles at about 350,000 cycles per second (one has to love Go for performance).
+Even on my incredibly tiny Raspberry Pi the algorithms are blazing fast, with the Damm algorithm running 10 digit compute/check cycles at about 350,000 cycles per second, and the Luhn algorithm running over 1.2 million cycles per second (one has to love Go for performance).
