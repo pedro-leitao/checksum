@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/davecgh/go-spew/spew"
+	"github.com/google/uuid"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -37,11 +37,11 @@ func main() {
 	case *check != "":
 		var err error
 		if *verhoeff {
-			response, err = c.VerhoeffCheck(context.Background(), &api.Request{Payload: *check})
+			response, err = c.VerhoeffCheck(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *check})
 		} else if *damm {
-			response, err = c.DammCheck(context.Background(), &api.Request{Payload: *check})
+			response, err = c.DammCheck(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *check})
 		} else if *luhn {
-			response, err = c.LuhnCheck(context.Background(), &api.Request{Payload: *check})
+			response, err = c.LuhnCheck(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *check})
 		}
 		if err != nil {
 			log.Fatalf("Error when calling gRPC method: %s", err)
@@ -50,17 +50,17 @@ func main() {
 	default:
 		var err error
 		if *verhoeff {
-			response, err = c.VerhoeffCompute(context.Background(), &api.Request{Payload: *compute})
+			response, err = c.VerhoeffCompute(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *compute})
 		} else if *damm {
-			response, err = c.DammCompute(context.Background(), &api.Request{Payload: *compute})
+			response, err = c.DammCompute(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *compute})
 		} else if *luhn {
-			response, err = c.LuhnCompute(context.Background(), &api.Request{Payload: *compute})
+			response, err = c.LuhnCompute(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *compute})
 		}
 		if err != nil {
 			log.Fatalf("Error when calling gRPC method: %s", err)
 		}
 	}
 
-	fmt.Printf("Response from server: \n%v\n", spew.Sprint(response))
+	fmt.Printf("Response from server: \n%v\n", response)
 
 }

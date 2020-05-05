@@ -20,9 +20,9 @@ func (s *Server) DammCompute(ctx context.Context, in *Request) (*Response, error
 	_, ns, err := dm.Compute(in.Payload)
 	if err != nil {
 		log.Printf("Failed to process: %v", err)
-		return &Response{Payload: "", Valid: false, Error: err.Error()}, nil
+		return &Response{Uuid: in.Uuid, Payload: "", Valid: false, Error: err.Error()}, nil
 	}
-	return &Response{Payload: ns, Valid: true, Error: ""}, nil
+	return &Response{Uuid: in.Uuid, Payload: ns, Valid: true, Error: ""}, nil
 }
 
 // VerhoeffCompute serves a request for computing a checksum using the Verhoeff algorithm
@@ -34,9 +34,9 @@ func (s *Server) VerhoeffCompute(ctx context.Context, in *Request) (*Response, e
 	_, ns, err := vh.Compute(in.Payload)
 	if err != nil {
 		log.Printf("Failed to process: %v", err)
-		return &Response{Payload: "", Valid: false, Error: err.Error()}, nil
+		return &Response{Uuid: in.Uuid, Payload: "", Valid: false, Error: err.Error()}, nil
 	}
-	return &Response{Payload: ns, Valid: true, Error: ""}, nil
+	return &Response{Uuid: in.Uuid, Payload: ns, Valid: true, Error: ""}, nil
 }
 
 // DammCheck serves a request for validating a checksum using the Damm algorithm
@@ -48,9 +48,9 @@ func (s *Server) DammCheck(ctx context.Context, in *Request) (*Response, error) 
 	valid, err := dm.Check(in.Payload)
 	if err != nil {
 		log.Printf("Failed to process: %v", err)
-		return &Response{Payload: in.Payload, Valid: false, Error: err.Error()}, nil
+		return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: false, Error: err.Error()}, nil
 	}
-	return &Response{Payload: in.Payload, Valid: valid, Error: ""}, nil
+	return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: valid, Error: ""}, nil
 }
 
 // VerhoeffCheck serves a request for validating a checksum using the Verhoeff algorithm
@@ -62,9 +62,9 @@ func (s *Server) VerhoeffCheck(ctx context.Context, in *Request) (*Response, err
 	valid, err := vh.Check(in.Payload)
 	if err != nil {
 		log.Printf("Failed to process: %v", err)
-		return &Response{Payload: in.Payload, Valid: false, Error: err.Error()}, nil
+		return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: false, Error: err.Error()}, nil
 	}
-	return &Response{Payload: in.Payload, Valid: valid, Error: ""}, nil
+	return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: valid, Error: ""}, nil
 }
 
 // LuhnCompute serves a request for computing a checksum using the Luhn algorithm
@@ -76,9 +76,9 @@ func (s *Server) LuhnCompute(ctx context.Context, in *Request) (*Response, error
 	_, ns, err := lh.Compute(in.Payload)
 	if err != nil {
 		log.Printf("Failed to process: %v", err)
-		return &Response{Payload: "", Valid: false, Error: err.Error()}, nil
+		return &Response{Uuid: in.Uuid, Payload: "", Valid: false, Error: err.Error()}, nil
 	}
-	return &Response{Payload: ns, Valid: true, Error: ""}, nil
+	return &Response{Uuid: in.Uuid, Payload: ns, Valid: true, Error: ""}, nil
 }
 
 // LuhnCheck serves a request for validating a checksum using the Luhn algorithm
@@ -90,7 +90,7 @@ func (s *Server) LuhnCheck(ctx context.Context, in *Request) (*Response, error) 
 	valid, err := lh.Check(in.Payload)
 	if err != nil {
 		log.Printf("Failed to process: %v", err)
-		return &Response{Payload: in.Payload, Valid: false, Error: err.Error()}, nil
+		return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: false, Error: err.Error()}, nil
 	}
-	return &Response{Payload: in.Payload, Valid: valid, Error: ""}, nil
+	return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: valid, Error: ""}, nil
 }
