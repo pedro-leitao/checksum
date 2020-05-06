@@ -31,30 +31,100 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := api.NewChecksumClient(conn)
+	client := api.NewChecksumClient(conn)
 	switch {
 
 	case *check != "":
-		var err error
 		if *verhoeff {
-			response, err = c.VerhoeffCheck(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *check})
+			stream, err := client.VerhoeffCheck(context.Background())
+			defer stream.CloseSend()
+
+			if err != nil {
+				log.Fatalf("Failed to create stream: %v", err)
+			}
+			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *check}); err != nil {
+				log.Printf("Failed to send to stream: %v", err)
+				break
+			}
+			if response, err = stream.Recv(); err != nil {
+				log.Printf("Failed to receive from stream: %v", err)
+			}
 		} else if *damm {
-			response, err = c.DammCheck(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *check})
+			stream, err := client.DammCheck(context.Background())
+			defer stream.CloseSend()
+
+			if err != nil {
+				log.Fatalf("Failed to create stream: %v", err)
+			}
+			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *check}); err != nil {
+				log.Printf("Failed to send to stream: %v", err)
+				break
+			}
+			if response, err = stream.Recv(); err != nil {
+				log.Printf("Failed to receive from stream: %v", err)
+			}
 		} else if *luhn {
-			response, err = c.LuhnCheck(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *check})
+			stream, err := client.LuhnCheck(context.Background())
+			defer stream.CloseSend()
+
+			if err != nil {
+				log.Fatalf("Failed to create stream: %v", err)
+			}
+			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *check}); err != nil {
+				log.Printf("Failed to send to stream: %v", err)
+				break
+			}
+			if response, err = stream.Recv(); err != nil {
+				log.Printf("Failed to receive from stream: %v", err)
+			}
 		}
 		if err != nil {
 			log.Fatalf("Error when calling gRPC method: %s", err)
 		}
 
 	default:
-		var err error
 		if *verhoeff {
-			response, err = c.VerhoeffCompute(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *compute})
+			stream, err := client.VerhoeffCompute(context.Background())
+			defer stream.CloseSend()
+
+			if err != nil {
+				log.Fatalf("Failed to create stream: %v", err)
+			}
+			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *compute}); err != nil {
+				log.Printf("Failed to send to stream: %v", err)
+				break
+			}
+			if response, err = stream.Recv(); err != nil {
+				log.Printf("Failed to receive from stream: %v", err)
+			}
 		} else if *damm {
-			response, err = c.DammCompute(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *compute})
+			stream, err := client.DammCompute(context.Background())
+			defer stream.CloseSend()
+
+			if err != nil {
+				log.Fatalf("Failed to create stream: %v", err)
+			}
+			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *compute}); err != nil {
+				log.Printf("Failed to send to stream: %v", err)
+				break
+			}
+			if response, err = stream.Recv(); err != nil {
+				log.Printf("Failed to receive from stream: %v", err)
+			}
 		} else if *luhn {
-			response, err = c.LuhnCompute(context.Background(), &api.Request{Uuid: uuid.New().String(), Payload: *compute})
+			stream, err := client.DammCompute(context.Background())
+			defer stream.CloseSend()
+
+			if err != nil {
+				log.Fatalf("Failed to create stream: %v", err)
+			}
+			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *compute}); err != nil {
+				log.Printf("Failed to send to stream: %v", err)
+				break
+			}
+			if response, err = stream.Recv(); err != nil {
+				log.Printf("Failed to receive from stream: %v", err)
+			}
 		}
 		if err != nil {
 			log.Fatalf("Error when calling gRPC method: %s", err)

@@ -11,6 +11,7 @@ import (
 )
 
 // main start a gRPC server and waits for connection
+
 func main() {
 
 	port := flag.Int("port", 4040, "port the server should listen on")

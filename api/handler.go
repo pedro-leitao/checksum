@@ -2,9 +2,8 @@ package api
 
 import (
 	"checksum"
+	"io"
 	"log"
-
-	"golang.org/x/net/context"
 )
 
 // Server represents the gRPC server
@@ -12,85 +11,223 @@ type Server struct {
 }
 
 // DammCompute serves a request for computing a checksum using the Damm algorithm
-func (s *Server) DammCompute(ctx context.Context, in *Request) (*Response, error) {
+func (s *Server) DammCompute(srv Checksum_DammComputeServer) error {
 	var dm checksum.Damm
 
-	log.Printf("Received request %v", in)
+	ctx := srv.Context()
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
 
-	_, ns, err := dm.Compute(in.Payload)
-	if err != nil {
-		log.Printf("Failed to process: %v", err)
-		return &Response{Uuid: in.Uuid, Payload: "", Valid: false, Error: err.Error()}, nil
+		req, err := srv.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			log.Printf("Failed to receive: %v", err)
+		}
+
+		_, ns, err := dm.Compute(req.Payload)
+		if err != nil {
+			log.Printf("Failed to process: %v", err)
+			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: "", Valid: false, Error: err.Error()}); err != nil {
+				log.Printf("Failed to send: %v", err)
+			}
+		}
+
+		if err := srv.Send(&Response{Uuid: req.Uuid, Payload: ns, Valid: true, Error: ""}); err != nil {
+			log.Printf("Failed to send: %v", err)
+		}
+
+		log.Printf("Handled request %v", req)
 	}
-	return &Response{Uuid: in.Uuid, Payload: ns, Valid: true, Error: ""}, nil
+
 }
 
 // VerhoeffCompute serves a request for computing a checksum using the Verhoeff algorithm
-func (s *Server) VerhoeffCompute(ctx context.Context, in *Request) (*Response, error) {
+func (s *Server) VerhoeffCompute(srv Checksum_VerhoeffComputeServer) error {
 	var vh checksum.Verhoeff
 
-	log.Printf("Received request %v", in)
+	ctx := srv.Context()
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
 
-	_, ns, err := vh.Compute(in.Payload)
-	if err != nil {
-		log.Printf("Failed to process: %v", err)
-		return &Response{Uuid: in.Uuid, Payload: "", Valid: false, Error: err.Error()}, nil
+		req, err := srv.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			log.Printf("Failed to receive: %v", err)
+		}
+
+		_, ns, err := vh.Compute(req.Payload)
+		if err != nil {
+			log.Printf("Failed to process: %v", err)
+			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: "", Valid: false, Error: err.Error()}); err != nil {
+				log.Printf("Failed to send: %v", err)
+			}
+		}
+
+		if err := srv.Send(&Response{Uuid: req.Uuid, Payload: ns, Valid: true, Error: ""}); err != nil {
+			log.Printf("Failed to send: %v", err)
+		}
+
+		log.Printf("Handled request %v", req)
 	}
-	return &Response{Uuid: in.Uuid, Payload: ns, Valid: true, Error: ""}, nil
+
 }
 
 // DammCheck serves a request for validating a checksum using the Damm algorithm
-func (s *Server) DammCheck(ctx context.Context, in *Request) (*Response, error) {
+func (s *Server) DammCheck(srv Checksum_DammCheckServer) error {
 	var dm checksum.Damm
 
-	log.Printf("Received request %v", in)
+	ctx := srv.Context()
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
 
-	valid, err := dm.Check(in.Payload)
-	if err != nil {
-		log.Printf("Failed to process: %v", err)
-		return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: false, Error: err.Error()}, nil
+		req, err := srv.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			log.Printf("Failed to receive: %v", err)
+		}
+
+		valid, err := dm.Check(req.Payload)
+		if err != nil {
+			log.Printf("Failed to process: %v", err)
+			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: req.Payload, Valid: valid, Error: err.Error()}); err != nil {
+				log.Printf("Failed to send: %v", err)
+			}
+		}
+
+		if err := srv.Send(&Response{Uuid: req.Uuid, Payload: req.Payload, Valid: valid, Error: ""}); err != nil {
+			log.Printf("Failed to send: %v", err)
+		}
+
+		log.Printf("Handled request %v", req)
 	}
-	return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: valid, Error: ""}, nil
+
 }
 
 // VerhoeffCheck serves a request for validating a checksum using the Verhoeff algorithm
-func (s *Server) VerhoeffCheck(ctx context.Context, in *Request) (*Response, error) {
+func (s *Server) VerhoeffCheck(srv Checksum_VerhoeffCheckServer) error {
 	var vh checksum.Verhoeff
 
-	log.Printf("Received request %v", in)
+	ctx := srv.Context()
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
 
-	valid, err := vh.Check(in.Payload)
-	if err != nil {
-		log.Printf("Failed to process: %v", err)
-		return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: false, Error: err.Error()}, nil
+		req, err := srv.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			log.Printf("Failed to receive: %v", err)
+		}
+
+		valid, err := vh.Check(req.Payload)
+		if err != nil {
+			log.Printf("Failed to process: %v", err)
+			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: req.Payload, Valid: valid, Error: err.Error()}); err != nil {
+				log.Printf("Failed to send: %v", err)
+			}
+		}
+
+		if err := srv.Send(&Response{Uuid: req.Uuid, Payload: req.Payload, Valid: valid, Error: ""}); err != nil {
+			log.Printf("Failed to send: %v", err)
+		}
+
+		log.Printf("Handled request %v", req)
 	}
-	return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: valid, Error: ""}, nil
+
 }
 
 // LuhnCompute serves a request for computing a checksum using the Luhn algorithm
-func (s *Server) LuhnCompute(ctx context.Context, in *Request) (*Response, error) {
+func (s *Server) LuhnCompute(srv Checksum_LuhnComputeServer) error {
 	var lh checksum.Luhn
 
-	log.Printf("Received request %v", in)
+	ctx := srv.Context()
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
 
-	_, ns, err := lh.Compute(in.Payload)
-	if err != nil {
-		log.Printf("Failed to process: %v", err)
-		return &Response{Uuid: in.Uuid, Payload: "", Valid: false, Error: err.Error()}, nil
+		req, err := srv.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			log.Printf("Failed to receive: %v", err)
+		}
+
+		_, ns, err := lh.Compute(req.Payload)
+		if err != nil {
+			log.Printf("Failed to process: %v", err)
+			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: "", Valid: false, Error: err.Error()}); err != nil {
+				log.Printf("Failed to send: %v", err)
+			}
+		}
+
+		if err := srv.Send(&Response{Uuid: req.Uuid, Payload: ns, Valid: true, Error: ""}); err != nil {
+			log.Printf("Failed to send: %v", err)
+		}
+
+		log.Printf("Handled request %v", req)
 	}
-	return &Response{Uuid: in.Uuid, Payload: ns, Valid: true, Error: ""}, nil
+
 }
 
 // LuhnCheck serves a request for validating a checksum using the Luhn algorithm
-func (s *Server) LuhnCheck(ctx context.Context, in *Request) (*Response, error) {
+func (s *Server) LuhnCheck(srv Checksum_LuhnCheckServer) error {
 	var lh checksum.Luhn
 
-	log.Printf("Received request %v", in)
+	ctx := srv.Context()
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
 
-	valid, err := lh.Check(in.Payload)
-	if err != nil {
-		log.Printf("Failed to process: %v", err)
-		return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: false, Error: err.Error()}, nil
+		req, err := srv.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			log.Printf("Failed to receive: %v", err)
+		}
+
+		valid, err := lh.Check(req.Payload)
+		if err != nil {
+			log.Printf("Failed to process: %v", err)
+			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: req.Payload, Valid: valid, Error: err.Error()}); err != nil {
+				log.Printf("Failed to send: %v", err)
+			}
+		}
+
+		if err := srv.Send(&Response{Uuid: req.Uuid, Payload: req.Payload, Valid: valid, Error: ""}); err != nil {
+			log.Printf("Failed to send: %v", err)
+		}
+
+		log.Printf("Handled request %v", req)
 	}
-	return &Response{Uuid: in.Uuid, Payload: in.Payload, Valid: valid, Error: ""}, nil
+
 }

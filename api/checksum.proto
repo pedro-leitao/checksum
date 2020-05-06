@@ -15,10 +15,10 @@ message Response {
 }
 
 service Checksum {
-    rpc DammCompute(Request) returns (Response) {}
-    rpc DammCheck(Request) returns (Response) {}
-    rpc VerhoeffCompute(Request) returns (Response) {}
-    rpc VerhoeffCheck(Request) returns (Response) {}
-    rpc LuhnCompute(Request) returns (Response) {}
-    rpc LuhnCheck(Request) returns (Response) {}
+    rpc DammCompute(stream Request) returns (stream Response) {}
+    rpc DammCheck(stream Request) returns (stream Response) {}
+    rpc VerhoeffCompute(stream Request) returns (stream Response) {}
+    rpc VerhoeffCheck(stream Request) returns (stream Response) {}
+    rpc LuhnCompute(stream Request) returns (stream Response) {}
+    rpc LuhnCheck(stream Request) returns (stream Response) {}
 }
