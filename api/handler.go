@@ -12,7 +12,7 @@ type Server struct {
 
 // DammCompute serves a request for computing a checksum using the Damm algorithm
 func (s *Server) DammCompute(srv Checksum_DammComputeServer) error {
-	var dm checksum.Damm
+	var algo checksum.Damm
 
 	ctx := srv.Context()
 	for {
@@ -24,13 +24,14 @@ func (s *Server) DammCompute(srv Checksum_DammComputeServer) error {
 
 		req, err := srv.Recv()
 		if err == io.EOF {
+			log.Printf("Stream was closed: %v", err)
 			return nil
 		}
 		if err != nil {
 			log.Printf("Failed to receive: %v", err)
 		}
 
-		_, ns, err := dm.Compute(req.Payload)
+		_, ns, err := algo.Compute(req.Payload)
 		if err != nil {
 			log.Printf("Failed to process: %v", err)
 			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: "", Valid: false, Error: err.Error()}); err != nil {
@@ -49,7 +50,7 @@ func (s *Server) DammCompute(srv Checksum_DammComputeServer) error {
 
 // VerhoeffCompute serves a request for computing a checksum using the Verhoeff algorithm
 func (s *Server) VerhoeffCompute(srv Checksum_VerhoeffComputeServer) error {
-	var vh checksum.Verhoeff
+	var algo checksum.Verhoeff
 
 	ctx := srv.Context()
 	for {
@@ -67,7 +68,7 @@ func (s *Server) VerhoeffCompute(srv Checksum_VerhoeffComputeServer) error {
 			log.Printf("Failed to receive: %v", err)
 		}
 
-		_, ns, err := vh.Compute(req.Payload)
+		_, ns, err := algo.Compute(req.Payload)
 		if err != nil {
 			log.Printf("Failed to process: %v", err)
 			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: "", Valid: false, Error: err.Error()}); err != nil {
@@ -86,7 +87,7 @@ func (s *Server) VerhoeffCompute(srv Checksum_VerhoeffComputeServer) error {
 
 // DammCheck serves a request for validating a checksum using the Damm algorithm
 func (s *Server) DammCheck(srv Checksum_DammCheckServer) error {
-	var dm checksum.Damm
+	var algo checksum.Damm
 
 	ctx := srv.Context()
 	for {
@@ -104,7 +105,7 @@ func (s *Server) DammCheck(srv Checksum_DammCheckServer) error {
 			log.Printf("Failed to receive: %v", err)
 		}
 
-		valid, err := dm.Check(req.Payload)
+		valid, err := algo.Check(req.Payload)
 		if err != nil {
 			log.Printf("Failed to process: %v", err)
 			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: req.Payload, Valid: valid, Error: err.Error()}); err != nil {
@@ -123,7 +124,7 @@ func (s *Server) DammCheck(srv Checksum_DammCheckServer) error {
 
 // VerhoeffCheck serves a request for validating a checksum using the Verhoeff algorithm
 func (s *Server) VerhoeffCheck(srv Checksum_VerhoeffCheckServer) error {
-	var vh checksum.Verhoeff
+	var algo checksum.Verhoeff
 
 	ctx := srv.Context()
 	for {
@@ -141,7 +142,7 @@ func (s *Server) VerhoeffCheck(srv Checksum_VerhoeffCheckServer) error {
 			log.Printf("Failed to receive: %v", err)
 		}
 
-		valid, err := vh.Check(req.Payload)
+		valid, err := algo.Check(req.Payload)
 		if err != nil {
 			log.Printf("Failed to process: %v", err)
 			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: req.Payload, Valid: valid, Error: err.Error()}); err != nil {
@@ -160,7 +161,7 @@ func (s *Server) VerhoeffCheck(srv Checksum_VerhoeffCheckServer) error {
 
 // LuhnCompute serves a request for computing a checksum using the Luhn algorithm
 func (s *Server) LuhnCompute(srv Checksum_LuhnComputeServer) error {
-	var lh checksum.Luhn
+	var algo checksum.Luhn
 
 	ctx := srv.Context()
 	for {
@@ -178,7 +179,7 @@ func (s *Server) LuhnCompute(srv Checksum_LuhnComputeServer) error {
 			log.Printf("Failed to receive: %v", err)
 		}
 
-		_, ns, err := lh.Compute(req.Payload)
+		_, ns, err := algo.Compute(req.Payload)
 		if err != nil {
 			log.Printf("Failed to process: %v", err)
 			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: "", Valid: false, Error: err.Error()}); err != nil {
@@ -197,7 +198,7 @@ func (s *Server) LuhnCompute(srv Checksum_LuhnComputeServer) error {
 
 // LuhnCheck serves a request for validating a checksum using the Luhn algorithm
 func (s *Server) LuhnCheck(srv Checksum_LuhnCheckServer) error {
-	var lh checksum.Luhn
+	var algo checksum.Luhn
 
 	ctx := srv.Context()
 	for {
@@ -215,7 +216,7 @@ func (s *Server) LuhnCheck(srv Checksum_LuhnCheckServer) error {
 			log.Printf("Failed to receive: %v", err)
 		}
 
-		valid, err := lh.Check(req.Payload)
+		valid, err := algo.Check(req.Payload)
 		if err != nil {
 			log.Printf("Failed to process: %v", err)
 			if err := srv.Send(&Response{Uuid: req.Uuid, Payload: req.Payload, Valid: valid, Error: err.Error()}); err != nil {

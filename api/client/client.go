@@ -13,17 +13,18 @@ import (
 
 func main() {
 
+	var conn *grpc.ClientConn
+	var response *api.Response
+	var err error
+
 	addr := flag.String("addr", "localhost:4040", "address the server is listening on")
 	check := flag.String("check", "", "check a given numeric string for its checksum")
 	compute := flag.String("compute", "123456789", "compute the checksum for a given numeric string")
 	damm := flag.Bool("damm", true, "use the Damm algorithm")
 	verhoeff := flag.Bool("verhoeff", false, "use the Verhoeff algorithm")
 	luhn := flag.Bool("luhn", false, "use the Luhn algorithm")
+	// stream := flag.Bool("stream", false, "stream content from stdin, one line at a time")
 	flag.Parse()
-
-	var conn *grpc.ClientConn
-	var response *api.Response
-	var err error
 
 	conn, err = grpc.Dial(*addr, grpc.WithInsecure())
 	if err != nil {
