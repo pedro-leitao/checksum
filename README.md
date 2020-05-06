@@ -8,7 +8,7 @@ Implemented as of now:
 - Verhoeff scheme (https://en.wikipedia.org/wiki/Verhoeff_algorithm)
 - Luhn algorithm (https://en.wikipedia.org/wiki/Luhn_algorithm)
 
-It comes with a gRPC endpoint implementation, and a client/server which can be used to invoke/serve calls.
+It comes with a gRPC endpoint implementation, and a streaming client/server which can be used to invoke/serve calls.
 
 ### Compiling the protobuf definition
 
