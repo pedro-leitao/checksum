@@ -4,21 +4,19 @@ package api;
 
 message Request {
     string uuid = 1;
-    string payload = 2;
+    string algo = 2;
+    string payload = 3;
 }
 
 message Response {
     string uuid = 1;
-    string payload = 2;
-    bool valid = 3;
-    string error = 4;
+    string algo = 2;
+    string payload = 3;
+    bool valid = 4;
+    string error = 5;
 }
 
 service Checksum {
-    rpc DammCompute(stream Request) returns (stream Response) {}
-    rpc DammCheck(stream Request) returns (stream Response) {}
-    rpc VerhoeffCompute(stream Request) returns (stream Response) {}
-    rpc VerhoeffCheck(stream Request) returns (stream Response) {}
-    rpc LuhnCompute(stream Request) returns (stream Response) {}
-    rpc LuhnCheck(stream Request) returns (stream Response) {}
+    rpc Compute(stream Request) returns (stream Response) {}
+    rpc Check(stream Request) returns (stream Response) {}
 }

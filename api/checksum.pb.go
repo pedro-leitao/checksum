@@ -35,7 +35,8 @@ type Request struct {
 	unknownFields protoimpl.UnknownFields
 
 	Uuid    string `protobuf:"bytes,1,opt,name=uuid,proto3" json:"uuid,omitempty"`
-	Payload string `protobuf:"bytes,2,opt,name=payload,proto3" json:"payload,omitempty"`
+	Algo    string `protobuf:"bytes,2,opt,name=algo,proto3" json:"algo,omitempty"`
+	Payload string `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
 }
 
 func (x *Request) Reset() {
@@ -77,6 +78,13 @@ func (x *Request) GetUuid() string {
 	return ""
 }
 
+func (x *Request) GetAlgo() string {
+	if x != nil {
+		return x.Algo
+	}
+	return ""
+}
+
 func (x *Request) GetPayload() string {
 	if x != nil {
 		return x.Payload
@@ -90,9 +98,10 @@ type Response struct {
 	unknownFields protoimpl.UnknownFields
 
 	Uuid    string `protobuf:"bytes,1,opt,name=uuid,proto3" json:"uuid,omitempty"`
-	Payload string `protobuf:"bytes,2,opt,name=payload,proto3" json:"payload,omitempty"`
-	Valid   bool   `protobuf:"varint,3,opt,name=valid,proto3" json:"valid,omitempty"`
-	Error   string `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
+	Algo    string `protobuf:"bytes,2,opt,name=algo,proto3" json:"algo,omitempty"`
+	Payload string `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
+	Valid   bool   `protobuf:"varint,4,opt,name=valid,proto3" json:"valid,omitempty"`
+	Error   string `protobuf:"bytes,5,opt,name=error,proto3" json:"error,omitempty"`
 }
 
 func (x *Response) Reset() {
@@ -134,6 +143,13 @@ func (x *Response) GetUuid() string {
 	return ""
 }
 
+func (x *Response) GetAlgo() string {
+	if x != nil {
+		return x.Algo
+	}
+	return ""
+}
+
 func (x *Response) GetPayload() string {
 	if x != nil {
 		return x.Payload
@@ -159,37 +175,27 @@ var File_checksum_proto protoreflect.FileDescriptor
 
 var file_checksum_proto_rawDesc = []byte{
 	0x0a, 0x0e, 0x63, 0x68, 0x65, 0x63, 0x6b, 0x73, 0x75, 0x6d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x12, 0x03, 0x61, 0x70, 0x69, 0x22, 0x37, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x03, 0x61, 0x70, 0x69, 0x22, 0x4b, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
 	0x12, 0x12, 0x0a, 0x04, 0x75, 0x75, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
-	0x75, 0x75, 0x69, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x22, 0x64,
-	0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x75,
-	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x75, 0x69, 0x64, 0x12, 0x18,
-	0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x69,
-	0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x12, 0x14,
-	0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65,
-	0x72, 0x72, 0x6f, 0x72, 0x32, 0xb8, 0x02, 0x0a, 0x08, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x73, 0x75,
-	0x6d, 0x12, 0x30, 0x0a, 0x0b, 0x44, 0x61, 0x6d, 0x6d, 0x43, 0x6f, 0x6d, 0x70, 0x75, 0x74, 0x65,
-	0x12, 0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d,
-	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28,
-	0x01, 0x30, 0x01, 0x12, 0x2e, 0x0a, 0x09, 0x44, 0x61, 0x6d, 0x6d, 0x43, 0x68, 0x65, 0x63, 0x6b,
-	0x12, 0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d,
-	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28,
-	0x01, 0x30, 0x01, 0x12, 0x34, 0x0a, 0x0f, 0x56, 0x65, 0x72, 0x68, 0x6f, 0x65, 0x66, 0x66, 0x43,
-	0x6f, 0x6d, 0x70, 0x75, 0x74, 0x65, 0x12, 0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x12, 0x32, 0x0a, 0x0d, 0x56, 0x65, 0x72,
-	0x68, 0x6f, 0x65, 0x66, 0x66, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x12, 0x0c, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x12, 0x30, 0x0a,
-	0x0b, 0x4c, 0x75, 0x68, 0x6e, 0x43, 0x6f, 0x6d, 0x70, 0x75, 0x74, 0x65, 0x12, 0x0c, 0x2e, 0x61,
-	0x70, 0x69, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x12,
-	0x2e, 0x0a, 0x09, 0x4c, 0x75, 0x68, 0x6e, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x12, 0x0c, 0x2e, 0x61,
-	0x70, 0x69, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x42,
-	0x07, 0x5a, 0x05, 0x2e, 0x3b, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x75, 0x75, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x61, 0x6c, 0x67, 0x6f, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x61, 0x6c, 0x67, 0x6f, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c,
+	0x6f, 0x61, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f,
+	0x61, 0x64, 0x22, 0x78, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12,
+	0x0a, 0x04, 0x75, 0x75, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x75,
+	0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x61, 0x6c, 0x67, 0x6f, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x61, 0x6c, 0x67, 0x6f, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61,
+	0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64,
+	0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52,
+	0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18,
+	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x32, 0x64, 0x0a, 0x08,
+	0x43, 0x68, 0x65, 0x63, 0x6b, 0x73, 0x75, 0x6d, 0x12, 0x2c, 0x0a, 0x07, 0x43, 0x6f, 0x6d, 0x70,
+	0x75, 0x74, 0x65, 0x12, 0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x0d, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x12, 0x2a, 0x0a, 0x05, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x12,
+	0x0c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01,
+	0x30, 0x01, 0x42, 0x07, 0x5a, 0x05, 0x2e, 0x3b, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -210,20 +216,12 @@ var file_checksum_proto_goTypes = []interface{}{
 	(*Response)(nil), // 1: api.Response
 }
 var file_checksum_proto_depIdxs = []int32{
-	0, // 0: api.Checksum.DammCompute:input_type -> api.Request
-	0, // 1: api.Checksum.DammCheck:input_type -> api.Request
-	0, // 2: api.Checksum.VerhoeffCompute:input_type -> api.Request
-	0, // 3: api.Checksum.VerhoeffCheck:input_type -> api.Request
-	0, // 4: api.Checksum.LuhnCompute:input_type -> api.Request
-	0, // 5: api.Checksum.LuhnCheck:input_type -> api.Request
-	1, // 6: api.Checksum.DammCompute:output_type -> api.Response
-	1, // 7: api.Checksum.DammCheck:output_type -> api.Response
-	1, // 8: api.Checksum.VerhoeffCompute:output_type -> api.Response
-	1, // 9: api.Checksum.VerhoeffCheck:output_type -> api.Response
-	1, // 10: api.Checksum.LuhnCompute:output_type -> api.Response
-	1, // 11: api.Checksum.LuhnCheck:output_type -> api.Response
-	6, // [6:12] is the sub-list for method output_type
-	0, // [0:6] is the sub-list for method input_type
+	0, // 0: api.Checksum.Compute:input_type -> api.Request
+	0, // 1: api.Checksum.Check:input_type -> api.Request
+	1, // 2: api.Checksum.Compute:output_type -> api.Response
+	1, // 3: api.Checksum.Check:output_type -> api.Response
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -292,12 +290,8 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ChecksumClient interface {
-	DammCompute(ctx context.Context, opts ...grpc.CallOption) (Checksum_DammComputeClient, error)
-	DammCheck(ctx context.Context, opts ...grpc.CallOption) (Checksum_DammCheckClient, error)
-	VerhoeffCompute(ctx context.Context, opts ...grpc.CallOption) (Checksum_VerhoeffComputeClient, error)
-	VerhoeffCheck(ctx context.Context, opts ...grpc.CallOption) (Checksum_VerhoeffCheckClient, error)
-	LuhnCompute(ctx context.Context, opts ...grpc.CallOption) (Checksum_LuhnComputeClient, error)
-	LuhnCheck(ctx context.Context, opts ...grpc.CallOption) (Checksum_LuhnCheckClient, error)
+	Compute(ctx context.Context, opts ...grpc.CallOption) (Checksum_ComputeClient, error)
+	Check(ctx context.Context, opts ...grpc.CallOption) (Checksum_CheckClient, error)
 }
 
 type checksumClient struct {
@@ -308,30 +302,30 @@ func NewChecksumClient(cc grpc.ClientConnInterface) ChecksumClient {
 	return &checksumClient{cc}
 }
 
-func (c *checksumClient) DammCompute(ctx context.Context, opts ...grpc.CallOption) (Checksum_DammComputeClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Checksum_serviceDesc.Streams[0], "/api.Checksum/DammCompute", opts...)
+func (c *checksumClient) Compute(ctx context.Context, opts ...grpc.CallOption) (Checksum_ComputeClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Checksum_serviceDesc.Streams[0], "/api.Checksum/Compute", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &checksumDammComputeClient{stream}
+	x := &checksumComputeClient{stream}
 	return x, nil
 }
 
-type Checksum_DammComputeClient interface {
+type Checksum_ComputeClient interface {
 	Send(*Request) error
 	Recv() (*Response, error)
 	grpc.ClientStream
 }
 
-type checksumDammComputeClient struct {
+type checksumComputeClient struct {
 	grpc.ClientStream
 }
 
-func (x *checksumDammComputeClient) Send(m *Request) error {
+func (x *checksumComputeClient) Send(m *Request) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *checksumDammComputeClient) Recv() (*Response, error) {
+func (x *checksumComputeClient) Recv() (*Response, error) {
 	m := new(Response)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -339,154 +333,30 @@ func (x *checksumDammComputeClient) Recv() (*Response, error) {
 	return m, nil
 }
 
-func (c *checksumClient) DammCheck(ctx context.Context, opts ...grpc.CallOption) (Checksum_DammCheckClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Checksum_serviceDesc.Streams[1], "/api.Checksum/DammCheck", opts...)
+func (c *checksumClient) Check(ctx context.Context, opts ...grpc.CallOption) (Checksum_CheckClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Checksum_serviceDesc.Streams[1], "/api.Checksum/Check", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &checksumDammCheckClient{stream}
+	x := &checksumCheckClient{stream}
 	return x, nil
 }
 
-type Checksum_DammCheckClient interface {
+type Checksum_CheckClient interface {
 	Send(*Request) error
 	Recv() (*Response, error)
 	grpc.ClientStream
 }
 
-type checksumDammCheckClient struct {
+type checksumCheckClient struct {
 	grpc.ClientStream
 }
 
-func (x *checksumDammCheckClient) Send(m *Request) error {
+func (x *checksumCheckClient) Send(m *Request) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *checksumDammCheckClient) Recv() (*Response, error) {
-	m := new(Response)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *checksumClient) VerhoeffCompute(ctx context.Context, opts ...grpc.CallOption) (Checksum_VerhoeffComputeClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Checksum_serviceDesc.Streams[2], "/api.Checksum/VerhoeffCompute", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &checksumVerhoeffComputeClient{stream}
-	return x, nil
-}
-
-type Checksum_VerhoeffComputeClient interface {
-	Send(*Request) error
-	Recv() (*Response, error)
-	grpc.ClientStream
-}
-
-type checksumVerhoeffComputeClient struct {
-	grpc.ClientStream
-}
-
-func (x *checksumVerhoeffComputeClient) Send(m *Request) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *checksumVerhoeffComputeClient) Recv() (*Response, error) {
-	m := new(Response)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *checksumClient) VerhoeffCheck(ctx context.Context, opts ...grpc.CallOption) (Checksum_VerhoeffCheckClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Checksum_serviceDesc.Streams[3], "/api.Checksum/VerhoeffCheck", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &checksumVerhoeffCheckClient{stream}
-	return x, nil
-}
-
-type Checksum_VerhoeffCheckClient interface {
-	Send(*Request) error
-	Recv() (*Response, error)
-	grpc.ClientStream
-}
-
-type checksumVerhoeffCheckClient struct {
-	grpc.ClientStream
-}
-
-func (x *checksumVerhoeffCheckClient) Send(m *Request) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *checksumVerhoeffCheckClient) Recv() (*Response, error) {
-	m := new(Response)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *checksumClient) LuhnCompute(ctx context.Context, opts ...grpc.CallOption) (Checksum_LuhnComputeClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Checksum_serviceDesc.Streams[4], "/api.Checksum/LuhnCompute", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &checksumLuhnComputeClient{stream}
-	return x, nil
-}
-
-type Checksum_LuhnComputeClient interface {
-	Send(*Request) error
-	Recv() (*Response, error)
-	grpc.ClientStream
-}
-
-type checksumLuhnComputeClient struct {
-	grpc.ClientStream
-}
-
-func (x *checksumLuhnComputeClient) Send(m *Request) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *checksumLuhnComputeClient) Recv() (*Response, error) {
-	m := new(Response)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *checksumClient) LuhnCheck(ctx context.Context, opts ...grpc.CallOption) (Checksum_LuhnCheckClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Checksum_serviceDesc.Streams[5], "/api.Checksum/LuhnCheck", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &checksumLuhnCheckClient{stream}
-	return x, nil
-}
-
-type Checksum_LuhnCheckClient interface {
-	Send(*Request) error
-	Recv() (*Response, error)
-	grpc.ClientStream
-}
-
-type checksumLuhnCheckClient struct {
-	grpc.ClientStream
-}
-
-func (x *checksumLuhnCheckClient) Send(m *Request) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *checksumLuhnCheckClient) Recv() (*Response, error) {
+func (x *checksumCheckClient) Recv() (*Response, error) {
 	m := new(Response)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -496,60 +366,44 @@ func (x *checksumLuhnCheckClient) Recv() (*Response, error) {
 
 // ChecksumServer is the server API for Checksum service.
 type ChecksumServer interface {
-	DammCompute(Checksum_DammComputeServer) error
-	DammCheck(Checksum_DammCheckServer) error
-	VerhoeffCompute(Checksum_VerhoeffComputeServer) error
-	VerhoeffCheck(Checksum_VerhoeffCheckServer) error
-	LuhnCompute(Checksum_LuhnComputeServer) error
-	LuhnCheck(Checksum_LuhnCheckServer) error
+	Compute(Checksum_ComputeServer) error
+	Check(Checksum_CheckServer) error
 }
 
 // UnimplementedChecksumServer can be embedded to have forward compatible implementations.
 type UnimplementedChecksumServer struct {
 }
 
-func (*UnimplementedChecksumServer) DammCompute(Checksum_DammComputeServer) error {
-	return status.Errorf(codes.Unimplemented, "method DammCompute not implemented")
+func (*UnimplementedChecksumServer) Compute(Checksum_ComputeServer) error {
+	return status.Errorf(codes.Unimplemented, "method Compute not implemented")
 }
-func (*UnimplementedChecksumServer) DammCheck(Checksum_DammCheckServer) error {
-	return status.Errorf(codes.Unimplemented, "method DammCheck not implemented")
-}
-func (*UnimplementedChecksumServer) VerhoeffCompute(Checksum_VerhoeffComputeServer) error {
-	return status.Errorf(codes.Unimplemented, "method VerhoeffCompute not implemented")
-}
-func (*UnimplementedChecksumServer) VerhoeffCheck(Checksum_VerhoeffCheckServer) error {
-	return status.Errorf(codes.Unimplemented, "method VerhoeffCheck not implemented")
-}
-func (*UnimplementedChecksumServer) LuhnCompute(Checksum_LuhnComputeServer) error {
-	return status.Errorf(codes.Unimplemented, "method LuhnCompute not implemented")
-}
-func (*UnimplementedChecksumServer) LuhnCheck(Checksum_LuhnCheckServer) error {
-	return status.Errorf(codes.Unimplemented, "method LuhnCheck not implemented")
+func (*UnimplementedChecksumServer) Check(Checksum_CheckServer) error {
+	return status.Errorf(codes.Unimplemented, "method Check not implemented")
 }
 
 func RegisterChecksumServer(s *grpc.Server, srv ChecksumServer) {
 	s.RegisterService(&_Checksum_serviceDesc, srv)
 }
 
-func _Checksum_DammCompute_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ChecksumServer).DammCompute(&checksumDammComputeServer{stream})
+func _Checksum_Compute_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ChecksumServer).Compute(&checksumComputeServer{stream})
 }
 
-type Checksum_DammComputeServer interface {
+type Checksum_ComputeServer interface {
 	Send(*Response) error
 	Recv() (*Request, error)
 	grpc.ServerStream
 }
 
-type checksumDammComputeServer struct {
+type checksumComputeServer struct {
 	grpc.ServerStream
 }
 
-func (x *checksumDammComputeServer) Send(m *Response) error {
+func (x *checksumComputeServer) Send(m *Response) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *checksumDammComputeServer) Recv() (*Request, error) {
+func (x *checksumComputeServer) Recv() (*Request, error) {
 	m := new(Request)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -557,129 +411,25 @@ func (x *checksumDammComputeServer) Recv() (*Request, error) {
 	return m, nil
 }
 
-func _Checksum_DammCheck_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ChecksumServer).DammCheck(&checksumDammCheckServer{stream})
+func _Checksum_Check_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ChecksumServer).Check(&checksumCheckServer{stream})
 }
 
-type Checksum_DammCheckServer interface {
+type Checksum_CheckServer interface {
 	Send(*Response) error
 	Recv() (*Request, error)
 	grpc.ServerStream
 }
 
-type checksumDammCheckServer struct {
+type checksumCheckServer struct {
 	grpc.ServerStream
 }
 
-func (x *checksumDammCheckServer) Send(m *Response) error {
+func (x *checksumCheckServer) Send(m *Response) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *checksumDammCheckServer) Recv() (*Request, error) {
-	m := new(Request)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func _Checksum_VerhoeffCompute_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ChecksumServer).VerhoeffCompute(&checksumVerhoeffComputeServer{stream})
-}
-
-type Checksum_VerhoeffComputeServer interface {
-	Send(*Response) error
-	Recv() (*Request, error)
-	grpc.ServerStream
-}
-
-type checksumVerhoeffComputeServer struct {
-	grpc.ServerStream
-}
-
-func (x *checksumVerhoeffComputeServer) Send(m *Response) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *checksumVerhoeffComputeServer) Recv() (*Request, error) {
-	m := new(Request)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func _Checksum_VerhoeffCheck_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ChecksumServer).VerhoeffCheck(&checksumVerhoeffCheckServer{stream})
-}
-
-type Checksum_VerhoeffCheckServer interface {
-	Send(*Response) error
-	Recv() (*Request, error)
-	grpc.ServerStream
-}
-
-type checksumVerhoeffCheckServer struct {
-	grpc.ServerStream
-}
-
-func (x *checksumVerhoeffCheckServer) Send(m *Response) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *checksumVerhoeffCheckServer) Recv() (*Request, error) {
-	m := new(Request)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func _Checksum_LuhnCompute_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ChecksumServer).LuhnCompute(&checksumLuhnComputeServer{stream})
-}
-
-type Checksum_LuhnComputeServer interface {
-	Send(*Response) error
-	Recv() (*Request, error)
-	grpc.ServerStream
-}
-
-type checksumLuhnComputeServer struct {
-	grpc.ServerStream
-}
-
-func (x *checksumLuhnComputeServer) Send(m *Response) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *checksumLuhnComputeServer) Recv() (*Request, error) {
-	m := new(Request)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func _Checksum_LuhnCheck_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ChecksumServer).LuhnCheck(&checksumLuhnCheckServer{stream})
-}
-
-type Checksum_LuhnCheckServer interface {
-	Send(*Response) error
-	Recv() (*Request, error)
-	grpc.ServerStream
-}
-
-type checksumLuhnCheckServer struct {
-	grpc.ServerStream
-}
-
-func (x *checksumLuhnCheckServer) Send(m *Response) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *checksumLuhnCheckServer) Recv() (*Request, error) {
+func (x *checksumCheckServer) Recv() (*Request, error) {
 	m := new(Request)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -693,38 +443,14 @@ var _Checksum_serviceDesc = grpc.ServiceDesc{
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "DammCompute",
-			Handler:       _Checksum_DammCompute_Handler,
+			StreamName:    "Compute",
+			Handler:       _Checksum_Compute_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},
 		{
-			StreamName:    "DammCheck",
-			Handler:       _Checksum_DammCheck_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "VerhoeffCompute",
-			Handler:       _Checksum_VerhoeffCompute_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "VerhoeffCheck",
-			Handler:       _Checksum_VerhoeffCheck_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "LuhnCompute",
-			Handler:       _Checksum_LuhnCompute_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "LuhnCheck",
-			Handler:       _Checksum_LuhnCheck_Handler,
+			StreamName:    "Check",
+			Handler:       _Checksum_Check_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},

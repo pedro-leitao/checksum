@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"checksum/api"
 	"flag"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/google/uuid"
 	"golang.org/x/net/context"
@@ -18,12 +20,11 @@ func main() {
 	var err error
 
 	addr := flag.String("addr", "localhost:4040", "address the server is listening on")
-	check := flag.String("check", "", "check a given numeric string for its checksum")
-	compute := flag.String("compute", "123456789", "compute the checksum for a given numeric string")
-	damm := flag.Bool("damm", true, "use the Damm algorithm")
-	verhoeff := flag.Bool("verhoeff", false, "use the Verhoeff algorithm")
-	luhn := flag.Bool("luhn", false, "use the Luhn algorithm")
-	// stream := flag.Bool("stream", false, "stream content from stdin, one line at a time")
+	check := flag.Bool("check", false, "check a given numeric string for its checksum")
+	compute := flag.Bool("compute", false, "compute the checksum for a given numeric string")
+	payload := flag.String("payload", "123456789", "the payload to compute the checksum")
+	algo := flag.String("algo", "luhn", "the checksum algorithm to use ('luhn', 'damm', 'verhoeff')")
+	stream := flag.Bool("stream", false, "stream content from stdin, one line at a time")
 	flag.Parse()
 
 	conn, err = grpc.Dial(*addr, grpc.WithInsecure())
@@ -33,105 +34,75 @@ func main() {
 	defer conn.Close()
 
 	client := api.NewChecksumClient(conn)
+
 	switch {
 
-	case *check != "":
-		if *verhoeff {
-			stream, err := client.VerhoeffCheck(context.Background())
-			defer stream.CloseSend()
+	case *check:
 
-			if err != nil {
-				log.Fatalf("Failed to create stream: %v", err)
-			}
-			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *check}); err != nil {
-				log.Printf("Failed to send to stream: %v", err)
-				break
-			}
-			if response, err = stream.Recv(); err != nil {
-				log.Printf("Failed to receive from stream: %v", err)
-			}
-		} else if *damm {
-			stream, err := client.DammCheck(context.Background())
-			defer stream.CloseSend()
+		strm, err := client.Check(context.Background())
+		defer strm.Context().Done()
+		defer strm.CloseSend()
 
-			if err != nil {
-				log.Fatalf("Failed to create stream: %v", err)
-			}
-			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *check}); err != nil {
-				log.Printf("Failed to send to stream: %v", err)
-				break
-			}
-			if response, err = stream.Recv(); err != nil {
-				log.Printf("Failed to receive from stream: %v", err)
-			}
-		} else if *luhn {
-			stream, err := client.LuhnCheck(context.Background())
-			defer stream.CloseSend()
-
-			if err != nil {
-				log.Fatalf("Failed to create stream: %v", err)
-			}
-			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *check}); err != nil {
-				log.Printf("Failed to send to stream: %v", err)
-				break
-			}
-			if response, err = stream.Recv(); err != nil {
-				log.Printf("Failed to receive from stream: %v", err)
-			}
-		}
 		if err != nil {
-			log.Fatalf("Error when calling gRPC method: %s", err)
+			log.Fatalf("Failed to create stream: %v", err)
+		}
+		if *stream {
+			scanner := bufio.NewScanner(os.Stdin)
+			log.Printf("Reading payload from <stdin> one line at a time...")
+			for scanner.Scan() {
+				if err := strm.Send(&api.Request{Uuid: uuid.New().String(), Algo: *algo, Payload: scanner.Text()}); err != nil {
+					log.Printf("Failed to send to stream: %v", err)
+					break
+				}
+				if response, err = strm.Recv(); err != nil {
+					log.Printf("Failed to receive from stream: %v", err)
+					break
+				}
+				fmt.Printf("Response from server: \n%v\n", response)
+			}
+		} else {
+			if err := strm.Send(&api.Request{Uuid: uuid.New().String(), Algo: *algo, Payload: *payload}); err != nil {
+				log.Printf("Failed to send to stream: %v", err)
+				break
+			}
+			if response, err = strm.Recv(); err != nil {
+				log.Printf("Failed to receive from stream: %v", err)
+			}
+			fmt.Printf("Response from server: \n%v\n", response)
 		}
 
-	default:
-		if *verhoeff {
-			stream, err := client.VerhoeffCompute(context.Background())
-			defer stream.CloseSend()
+	case *compute:
+		strm, err := client.Compute(context.Background())
+		defer strm.Context().Done()
+		defer strm.CloseSend()
 
-			if err != nil {
-				log.Fatalf("Failed to create stream: %v", err)
-			}
-			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *compute}); err != nil {
-				log.Printf("Failed to send to stream: %v", err)
-				break
-			}
-			if response, err = stream.Recv(); err != nil {
-				log.Printf("Failed to receive from stream: %v", err)
-			}
-		} else if *damm {
-			stream, err := client.DammCompute(context.Background())
-			defer stream.CloseSend()
-
-			if err != nil {
-				log.Fatalf("Failed to create stream: %v", err)
-			}
-			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *compute}); err != nil {
-				log.Printf("Failed to send to stream: %v", err)
-				break
-			}
-			if response, err = stream.Recv(); err != nil {
-				log.Printf("Failed to receive from stream: %v", err)
-			}
-		} else if *luhn {
-			stream, err := client.DammCompute(context.Background())
-			defer stream.CloseSend()
-
-			if err != nil {
-				log.Fatalf("Failed to create stream: %v", err)
-			}
-			if err := stream.Send(&api.Request{Uuid: uuid.New().String(), Payload: *compute}); err != nil {
-				log.Printf("Failed to send to stream: %v", err)
-				break
-			}
-			if response, err = stream.Recv(); err != nil {
-				log.Printf("Failed to receive from stream: %v", err)
-			}
-		}
 		if err != nil {
-			log.Fatalf("Error when calling gRPC method: %s", err)
+			log.Fatalf("Failed to create stream: %v", err)
+		}
+		if *stream {
+			scanner := bufio.NewScanner(os.Stdin)
+			log.Printf("Reading payload from <stdin> one line at a time...")
+			for scanner.Scan() {
+				if err := strm.Send(&api.Request{Uuid: uuid.New().String(), Algo: *algo, Payload: scanner.Text()}); err != nil {
+					log.Printf("Failed to send to stream: %v", err)
+					break
+				}
+				if response, err = strm.Recv(); err != nil {
+					log.Printf("Failed to receive from stream: %v", err)
+					break
+				}
+				fmt.Printf("Response from server: \n%v\n", response)
+			}
+		} else {
+			if err := strm.Send(&api.Request{Uuid: uuid.New().String(), Algo: *algo, Payload: *payload}); err != nil {
+				log.Printf("Failed to send to stream: %v", err)
+				break
+			}
+			if response, err = strm.Recv(); err != nil {
+				log.Printf("Failed to receive from stream: %v", err)
+			}
+			fmt.Printf("Response from server: \n%v\n", response)
 		}
 	}
-
-	fmt.Printf("Response from server: \n%v\n", response)
 
 }
