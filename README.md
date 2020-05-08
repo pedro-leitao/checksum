@@ -30,25 +30,34 @@ And finally run a few examples:
     $ ./server
     2020/05/04 00:44:40 Listening on port 4040
     $ ./client -help
-    Usage of ./client:
-    -addr string
+      -addr string
     	address the server is listening on (default "localhost:4040")
-    -check string
+      -algo string
+    	the checksum algorithm to use ('luhn', 'damm', 'verhoeff') (default "luhn")
+      -check
     	check a given numeric string for its checksum
-    -compute string
-    	compute the checksum for a given numeric string (default "123456789")
-    -damm
-    	use the Damm algorithm (default true)
-    -luhn
-    	use the Luhn algorithm
-    -verhoeff
-    	use the Verhoeff algorithm
-    $ ./client -addr :4040 -compute "123456789" -damm
-    Response from server:
-    <*>payload:"1234567894"  valid:true
-    $ ./client -addr :4040 -check "1234567894" -damm
-    Response from server:
-    <*>payload:"1234567894"  valid:true
+      -compute
+    	compute the checksum for a given numeric string
+      -payload string
+    	the payload to compute the checksum (default "123456789")
+      -stream
+    	stream content from stdin, one line at a time
+     $ ./client -addr :4040 -compute -payload "1234567897" -algo=verhoeff
+	Response from server:
+	uuid:"ed13dc88-19d1-4aa3-9b4c-478482e3f59e"  payload:"12345678973"  valid:true
+     $ ./client -addr :4040 -check -payload "12345678973" -algo=verhoeff
+	Response from server:
+	uuid:"479e82d7-1780-446d-b9f3-941cdc8d47e6"  payload:"12345678973"  valid:true
+     $ ./client -addr :4040 -compute -stream -algo=verhoeff < random.txt
+	Response from server:
+	uuid:"917de14c-5f2e-4d91-8ed8-3fc1fb962f49"  payload:"8740320014"  valid:true
+	Response from server:
+	uuid:"b0107364-11ed-4eb8-8e50-57d603519916"  payload:"1539518308"  valid:true
+	Response from server:
+	uuid:"44fcb134-267e-40e0-9d7b-ffba8d67b0df"  payload:"8107150221"  valid:true
+	Response from server:
+	uuid:"88b7ed89-e2b4-4813-badb-d20c982924a3"  payload:"2942262509"  valid:true
+	...
     
 ### Benchmarking and testing
 
